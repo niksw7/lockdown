@@ -63,7 +63,7 @@ func ReadUserRegisteredDetails(context *gin.Context) {
 
 func DownloadCsv(context *gin.Context) {
 	var db = context.MustGet("db").(*buntdb.DB)
-	var bytesReader []byte
+	var bytesReader = []byte("Tehsil,DealerType,DeliveryLocation,Mobile\n")
 	db.View(func(tx *buntdb.Tx) error {
 		err := tx.Ascend("", func(key, value string) bool {
 			all := strings.ReplaceAll(strings.ReplaceAll(value, "{", ""), "}", "")
