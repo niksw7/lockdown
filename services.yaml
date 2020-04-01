@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lockdown
+  namespace: lockdown
+  labels:
+    app: lockdown
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app: lockdown

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lockdown
+  namespace: lockdown
+  labels:
+    app: lockdown
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lockdown
+  template:
+    metadata:
+      labels:
+        app: lockdown
+    spec:
+      containers:
+        - name: lockdown
+          image: niksw7/lockdown:1.0
+          ports:
+            - containerPort: 8080
+              name: http
