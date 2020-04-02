@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/tidwall/buntdb"
-	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 
@@ -39,10 +39,10 @@ func RegisterUserDetails(context *gin.Context) {
 	}
 
 	db.Update(func(tx *buntdb.Tx) error {
-		tx.Set(time.Now().String()+string(rand.Int31()), string(traderDetailsAsBytes), nil)
+		tx.Set(strconv.FormatInt(time.Now().UnixNano(), 10), string(traderDetailsAsBytes), nil)
 		return nil
 	})
-	context.JSON(http.StatusOK, gin.H{"Success": traderDetails})
+	context.JSON(http.StatusOK, traderDetails)
 
 }
 
