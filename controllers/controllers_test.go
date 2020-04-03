@@ -9,7 +9,9 @@ import (
 	"lockdown/models"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
+	"time"
 )
 
 func TestRegisterUserDetails(t *testing.T) {
@@ -45,4 +47,34 @@ func contextForRegisterDetailsRequest(traderDetails models.TraderDetails, contex
 	traderDetailsAsString := string(bytes.Trim(b.Bytes(), "\n"))
 	context.Request = httptest.NewRequest(http.MethodPost, "/register-details", b)
 	return traderDetailsAsString
+}
+
+func TestDownloadCsv(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	responseRecorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(responseRecorder)
+	db, _ := buntdb.Open(":memory:")
+	defer db.Close()
+	context.Set("db", db)
+	//insert into database
+	db.Update(func(tx *buntdb.Tx) error {
+		tx.Set(strconv.FormatInt(time.Now().UnixNano(), 10), buildTraderDetails(), nil)
+		tx.Set(strconv.FormatInt(time.Now().UnixNano(), 10), buildTraderDetails(), nil)
+		return nil
+	})
+	context.Request = httptest.NewRequest(http.MethodGet, "/download", nil)
+	DownloadCsv(context)
+	assert.Equal(t,"Tehsil,DealerType,DeliveryLocation,Mobile\nramaPura,retail,muradabad,976112233\nramaPura,retail,muradabad,976112233\n",responseRecorder.Body.String())
+
+}
+
+func buildTraderDetails() string {
+	details := models.TraderDetails{
+		Tehsil:           "ramaPura",
+		DealerType:       "retail",
+		DeliveryLocation: "muradabad",
+		Mobile:           "976112233",
+	}
+	marshal, _ := json.Marshal(details)
+	return string(marshal)
 }

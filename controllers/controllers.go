@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"bytes"
+	"encoding/csv"
 	"encoding/json"
 	"github.com/tidwall/buntdb"
 	"strconv"
-	"strings"
 	"time"
 
 	//"encoding/json"
@@ -63,19 +63,20 @@ func ReadUserRegisteredDetails(context *gin.Context) {
 
 func DownloadCsv(context *gin.Context) {
 	var db = context.MustGet("db").(*buntdb.DB)
-	var bytesReader = []byte("Tehsil,DealerType,DeliveryLocation,Mobile\n")
+	var traderDetailArray []models.TraderDetails
 	db.View(func(tx *buntdb.Tx) error {
 		err := tx.Ascend("", func(key, value string) bool {
-			all := strings.ReplaceAll(strings.ReplaceAll(value, "{", ""), "}", "")
-			i := bytes.NewBufferString(all + "\n").Bytes()
-			bytesReader = append(bytesReader, i...)
-			log.Println(key, value)
+			traderDetailArray = append(traderDetailArray, stringToModel(value))
 			return true
 		})
 		return err
-
 	})
+	arrayOfStrings := jsonToCsv(traderDetailArray)
+	b := &bytes.Buffer{}
+	wr := csv.NewWriter(b)
+	wr.WriteAll(arrayOfStrings)
+	wr.Flush()
 	context.Header("Content-Description", "city_requests")
 	context.Header("Content-Disposition", "attachment; filename=city_requests.csv")
-	context.Data(http.StatusOK, "text/csv", bytesReader)
+	context.Data(http.StatusOK, "text/csv", b.Bytes())
 }
