@@ -1,6 +1,10 @@
 # lockdown
 The lockdown app to help administration
-
+##
+```aidl
+go build
+./lockdown
+```
 ###install httpie
 ````
 http -j POST :8080/open/register-user-details  tehsil=jaipur dealerType=sa deliveryLocation=jabalpur mobile=9221212121212121
