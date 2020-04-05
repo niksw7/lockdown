@@ -24,3 +24,9 @@ To download the csv
 ```
 http --download GET :8080/download-csv
 ```
+
+Remaining  Tasks
+1. Make GenerateId as singleton
+2. Refactor and move other handler methods to use repo methods
+3. Enhance request to include more fields
+4. Mock Dates in csv
