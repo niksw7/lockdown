@@ -28,6 +28,7 @@ func RegisterUserDetails(context *gin.Context) {
 	var traderDetails models.TraderDetails
 	var db = context.MustGet("db").(*buntdb.DB)
 	err := context.BindJSON(&traderDetails)
+
 	if err != nil {
 		log.Fatal("error in json binding user-data", err)
 		return
@@ -63,10 +64,10 @@ func ReadUserRegisteredDetails(context *gin.Context) {
 
 func DownloadCsv(context *gin.Context) {
 	var db = context.MustGet("db").(*buntdb.DB)
-	var traderDetailArray []models.TraderDetails
+	var traderDetailArray []models.CsvModel
 	db.View(func(tx *buntdb.Tx) error {
 		err := tx.Ascend("", func(key, value string) bool {
-			traderDetailArray = append(traderDetailArray, stringToModel(value))
+			traderDetailArray = append(traderDetailArray, stringToCsvModel(value, key))
 			return true
 		})
 		return err

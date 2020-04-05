@@ -64,7 +64,7 @@ func TestDownloadCsv(t *testing.T) {
 	})
 	context.Request = httptest.NewRequest(http.MethodGet, "/download", nil)
 	DownloadCsv(context)
-	assert.Equal(t,"Tehsil,DealerType,DeliveryLocation,Mobile\nramaPura,retail,muradabad,976112233\nramaPura,retail,muradabad,976112233\n",responseRecorder.Body.String())
+	assert.Equal(t, "Tehsil,DealerType,DeliveryLocation,Mobile,ApplicationDate\nramaPura,retail,muradabad,976112233,2020-04-04\nramaPura,retail,muradabad,976112233,2020-04-04\n", responseRecorder.Body.String())
 
 }
 
