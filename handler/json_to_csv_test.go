@@ -1,4 +1,4 @@
-package controllers
+package handler
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 )
 
 func Test_stringToModel(t *testing.T) {
-	givenModel := models.TraderDetails{
+	givenModel := models.TraderDetailsRequest{
 		Tehsil:           "rajasthan",
 		DealerType:       "sa",
 		DeliveryLocation: "jabalpur",

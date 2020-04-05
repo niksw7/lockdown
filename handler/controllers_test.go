@@ -1,12 +1,15 @@
-package controllers
+package handler
 
 import (
 	"bytes"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/tidwall/buntdb"
+	"io/ioutil"
 	"lockdown/models"
+	mockrepository "lockdown/repository"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -16,7 +19,7 @@ import (
 
 func TestRegisterUserDetails(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	traderDetails := models.TraderDetails{
+	traderDetails := models.TraderDetailsRequest{
 		Tehsil:           "VijayWada",
 		DealerType:       "Retail",
 		DeliveryLocation: "Jaipur",
@@ -24,24 +27,19 @@ func TestRegisterUserDetails(t *testing.T) {
 	}
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
-	db, _ := buntdb.Open(":memory:")
-	defer db.Close()
-	context.Set("db", db)
-	traderDetailsAsString := contextForRegisterDetailsRequest(traderDetails, context)
-	RegisterUserDetails(context)
-	//Assert Response
-	assert.Equal(t, traderDetailsAsString, responseRecorder.Body.String())
-	//Assert Database
-	db.View(func(tx *buntdb.Tx) error {
-		err := tx.Ascend("", func(key, value string) bool {
-			assert.Equal(t, traderDetailsAsString, value)
-			return true
-		})
-		return err
-	})
+	contextForRegisterDetailsRequest(traderDetails, context)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	m := mockrepository.NewMockRepo(ctrl)
+	m.EXPECT().GenerateUniqueId().Return(1).Times(1)
+	m.EXPECT().AddTraderRegistrationDetails(gomock.Any(), "1").Return(nil).Times(1)
+	UserDetailsRegistrar(m)(context)
+
+	//Don't care much about response
 }
 
-func contextForRegisterDetailsRequest(traderDetails models.TraderDetails, context *gin.Context) string {
+func contextForRegisterDetailsRequest(traderDetails models.TraderDetailsRequest, context *gin.Context) string {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(traderDetails)
 	traderDetailsAsString := string(bytes.Trim(b.Bytes(), "\n"))
@@ -63,13 +61,15 @@ func TestDownloadCsv(t *testing.T) {
 		return nil
 	})
 	context.Request = httptest.NewRequest(http.MethodGet, "/download", nil)
-	DownloadCsv(context)
-	assert.Equal(t, "Tehsil,DealerType,DeliveryLocation,Mobile,ApplicationDate\nramaPura,retail,muradabad,976112233,2020-04-04\nramaPura,retail,muradabad,976112233,2020-04-04\n", responseRecorder.Body.String())
+	CsvDownloader()(context)
+	content, _ := ioutil.ReadFile("test.csv")
+	expectedContent := string(content)
+	assert.Equal(t, expectedContent, responseRecorder.Body.String())
 
 }
 
 func buildTraderDetails() string {
-	details := models.TraderDetails{
+	details := models.TraderDetailsRequest{
 		Tehsil:           "ramaPura",
 		DealerType:       "retail",
 		DeliveryLocation: "muradabad",
