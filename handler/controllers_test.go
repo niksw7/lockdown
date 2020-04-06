@@ -21,6 +21,25 @@ func TestRegisterUserDetails(t *testing.T) {
 		DealerType:       "Retail",
 		DeliveryLocation: "Jaipur",
 		Mobile:           "89289211",
+		DealerInformation: models.DealerInformation{
+			ShopName:    "Ramlal mitaiwaala",
+			ShopAddress: "RustomJee Area, Kalakand",
+			PhoneNumber: "90881910",
+			Email:       "jackson@gmail.com",
+			ShopType:    "Retail",
+		},
+		HomeDeliveryDetails: models.HomeDeliveryDetails{
+			HomeDeliveryNumber: "98001010101",
+			AgentDetails: models.AgentDetails{
+				AgentName:   "Ramchandani",
+				AgentAge:    45,
+				AgentMobile: "99092029292",
+			},
+			VehicleDetails: models.VehicleDetails{
+				Type:   "Car",
+				Number: "MH091111",
+			},
+		},
 	}
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
@@ -60,7 +79,7 @@ func TestDownloadCsv(t *testing.T) {
 		RegistrationDate: "2019",
 		Id:               0,
 	}}
-	m.EXPECT().GetAllTraderRegistrationDetails().Return(dbs,nil).Times(1)
+	m.EXPECT().GetAllTraderRegistrationDetails().Return(dbs, nil).Times(1)
 	CsvDownloader(m)(context)
 	content, _ := ioutil.ReadFile("test.csv")
 	expectedContent := string(content)

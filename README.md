@@ -5,17 +5,72 @@ The lockdown app to help administration
 go build
 ./lockdown
 ```
-###install httpie
+### httpie way
 ````
-http -j POST :8080/open/register-user-details  tehsil=jaipur dealerType=sa deliveryLocation=jabalpur mobile=9221212121212121
+http -j POST :8080/open/register-user-details  < request.json
 ````
+here request.json is POST body
+### curl way
+```
+curl -X POST \
+  http://localhost:8080/open/register-user-details \
+  -H 'Accept: application/json' \
+  -d '{
+        "tehsil": "VijayWada",
+        "dealerType": "Retail",
+        "deliveryLocation": "Jaipur",
+        "mobile": "89289211",
+        "dealerInformation": {
+          "shopName": "Ramlal mitaiwaala",
+          "shopAddress": "RustomJee Area, Kalakand",
+          "phoneNumber": "90881910",
+          "email": "jackson@gmail.com",
+          "shopType": "Retail"
+        },
+        "homeDeliveryDetails": {
+          "homeDeliveryNumber": "98001010101",
+          "agentDetails": {
+            "agentName": "Ramchandani",
+            "agentAge": 45,
+            "agentMobile": "99092029292"
+          },
+          "vehicleDetails": {
+            "type": "Car",
+            "number": "MH091111"
+          }
+        }
+      }'
+```
+
 You will get the following response
 ```
 {
-    "dealerType": "sa",
-    "deliveryLocation": "jabalpur",
-    "mobile": "9221212121212121",
-    "tehsil": "jaipur"
+{
+  "Tehsil": "VijayWada",
+  "DealerType": "Retail",
+  "DeliveryLocation": "Jaipur",
+  "Mobile": "89289211",
+  "DealerInformation": {
+    "shopName": "Ramlal mitaiwaala",
+    "shopAddress": "RustomJee Area, Kalakand",
+    "phoneNumber": "90881910",
+    "email": "jackson@gmail.com",
+    "shopType": "Retail"
+  },
+  "HomeDeliveryDetails": {
+    "homeDeliveryNumber": "98001010101",
+    "agentDetails": {
+      "agentName": "Ramchandani",
+      "agentAge": 45,
+      "agentMobile": "99092029292"
+    },
+    "vehicleDetails": {
+      "type": "Car",
+      "number": "MH091111"
+    }
+  },
+  "RegistrationDate": "Monday, 06-Apr-20 23:12:19 IST",
+  "Id": 10
 }
 ```
 
