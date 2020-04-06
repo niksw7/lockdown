@@ -9,8 +9,9 @@ import (
 )
 
 type Repo interface {
-	AddTraderRegistrationDetails(traderDetails models.TraderDetailsDbRequest, id string) error
+	AddTraderRegistrationDetails(traderDetails models.TraderDetailsDb, id string) error
 	GenerateUniqueId() int
+	GetAllTraderRegistrationDetails() ([]models.TraderDetailsDb, error)
 }
 type BuntDbRepo struct {
 	DB *buntdb.DB
@@ -33,7 +34,8 @@ func (repo BuntDbRepo) GenerateUniqueId() int {
 	return generatedNumber
 
 }
-func (repo BuntDbRepo) AddTraderRegistrationDetails(traderDetails models.TraderDetailsDbRequest, id string) error {
+
+func (repo BuntDbRepo) AddTraderRegistrationDetails(traderDetails models.TraderDetailsDb, id string) error {
 	db := repo.DB
 	traderDetailsAsBytes, err := json.Marshal(traderDetails)
 	if err != nil {
@@ -45,4 +47,20 @@ func (repo BuntDbRepo) AddTraderRegistrationDetails(traderDetails models.TraderD
 		return err
 	})
 	return err
+}
+
+func (repo BuntDbRepo) GetAllTraderRegistrationDetails() ([]models.TraderDetailsDb, error) {
+	var traderDetailArray []models.TraderDetailsDb
+	err := repo.DB.View(func(tx *buntdb.Tx) error {
+		err := tx.Ascend("jsonIndex", func(key, value string) bool {
+			traderDetailArray = append(traderDetailArray, toTraderDetailsDb(value))
+			return true
+		})
+		return err
+	})
+	if err != nil {
+		log.Println("::GetAllTraderRegistrationDetails:: error in viewing data in db", err)
+		return nil, err
+	}
+	return traderDetailArray, nil
 }

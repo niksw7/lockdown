@@ -1,3 +1,2 @@
-Tehsil,DealerType,DeliveryLocation,Mobile,ApplicationDate
-ramaPura,retail,muradabad,976112233,2020-04-06
-ramaPura,retail,muradabad,976112233,2020-04-06
+Tehsil,DealerType,DeliveryLocation,Mobile,RegistrationDate,Id
+VijayWada,Retail,Jaipur,89289211,2019,0

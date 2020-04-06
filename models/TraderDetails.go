@@ -7,11 +7,19 @@ type TraderDetailsRequest struct {
 	Mobile           string `json:"mobile"`
 }
 
-type TraderDetailsDbRequest struct {
+type TraderDetailsDb struct {
 	Tehsil           string
 	DealerType       string
 	DeliveryLocation string
 	Mobile           string
 	RegistrationDate string
 	Id               int
+}
+
+type CsvModel struct {
+	Tehsil           string
+	DealerType       string
+	DeliveryLocation string
+	Mobile           string
+	ApplicationDate  string
 }

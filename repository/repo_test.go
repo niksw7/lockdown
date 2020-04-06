@@ -14,7 +14,7 @@ func TestBuntDbRepo_AddTraderRegistrationDetails(t *testing.T) {
 	db, _ := buntdb.Open(":memory:")
 	defer db.Close()
 	repo := BuntDbRepo{DB: db}
-	traderDetails := models.TraderDetailsDbRequest{
+	traderDetails := models.TraderDetailsDb{
 		Tehsil:           "Vijaywada",
 		DealerType:       "Retail",
 		DeliveryLocation: "Jaipur",
@@ -74,4 +74,10 @@ func TestBuntDbRepo_GenerateUniqueId(t *testing.T) {
 	repo := BuntDbRepo{DB: db}
 	id := repo.GenerateUniqueId()
 	assert.Equal(t, 108, id)
+}
+
+func TestGetAllTraderRegistrationDetails(t *testing.T) {
+
+	//got, err := GetAllTraderRegistrationDetails()
+
 }

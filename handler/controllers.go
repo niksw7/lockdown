@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"github.com/tidwall/buntdb"
 	"lockdown/repository"
+
 	"strconv"
 	"time"
 
@@ -28,7 +29,7 @@ func HealthChecker() gin.HandlerFunc {
 
 func UserDetailsRegistrar(repo repository.Repo) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		var traderDetails models.TraderDetailsDbRequest
+		var traderDetails models.TraderDetailsDb
 		err := context.BindJSON(&traderDetails)
 		if err != nil {
 			log.Println("error in json binding user-data", err)
@@ -65,23 +66,21 @@ func UserDetailsReader() gin.HandlerFunc {
 	}
 }
 
-func CsvDownloader() gin.HandlerFunc {
+func CsvDownloader(repo repository.Repo) gin.HandlerFunc {
 	return func(context *gin.Context) {
-
-		var db = context.MustGet("db").(*buntdb.DB)
-		var traderDetailArray []models.CsvModel
 		b := &bytes.Buffer{}
 		wr := csv.NewWriter(b)
-		db.View(func(tx *buntdb.Tx) error {
-			err := tx.Ascend("", func(key, value string) bool {
-				//for every record in database write to csv
-				traderDetailArray = append(traderDetailArray, stringToCsvModel(value, key))
-				return true
-			})
-			return err
-		})
+		//ideally csb write should be passed to db reader here
+		traderDetailArray, err := repo.GetAllTraderRegistrationDetails()
+		if err != nil {
+			context.AbortWithError(500, err)
+			return
+		}
 		arrayOfStrings := jsonToCsv(traderDetailArray)
-		wr.WriteAll(arrayOfStrings)
+		err = wr.WriteAll(arrayOfStrings)
+		if err != nil {
+			log.Println("::CsvDownloader:: writeall failed", err)
+		}
 		wr.Flush()
 		context.Header("Content-Description", "city_requests")
 		context.Header("Content-Disposition", "attachment; filename=city_requests.csv")

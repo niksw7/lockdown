@@ -6,15 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/tidwall/buntdb"
 	"io/ioutil"
 	"lockdown/models"
 	mockrepository "lockdown/repository"
 	"net/http"
 	"net/http/httptest"
-	"strconv"
 	"testing"
-	"time"
 )
 
 func TestRegisterUserDetails(t *testing.T) {
@@ -51,17 +48,20 @@ func TestDownloadCsv(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
-	db, _ := buntdb.Open(":memory:")
-	defer db.Close()
-	context.Set("db", db)
-	//insert into database
-	db.Update(func(tx *buntdb.Tx) error {
-		tx.Set(strconv.FormatInt(time.Now().UnixNano(), 10), buildTraderDetails(), nil)
-		tx.Set(strconv.FormatInt(time.Now().UnixNano(), 10), buildTraderDetails(), nil)
-		return nil
-	})
-	context.Request = httptest.NewRequest(http.MethodGet, "/download", nil)
-	CsvDownloader()(context)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	m := mockrepository.NewMockRepo(ctrl)
+	dbs := []models.TraderDetailsDb{{
+		Tehsil:           "VijayWada",
+		DealerType:       "Retail",
+		DeliveryLocation: "Jaipur",
+		Mobile:           "89289211",
+		RegistrationDate: "2019",
+		Id:               0,
+	}}
+	m.EXPECT().GetAllTraderRegistrationDetails().Return(dbs,nil).Times(1)
+	CsvDownloader(m)(context)
 	content, _ := ioutil.ReadFile("test.csv")
 	expectedContent := string(content)
 	assert.Equal(t, expectedContent, responseRecorder.Body.String())
