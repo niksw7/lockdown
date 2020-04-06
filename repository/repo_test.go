@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/tidwall/buntdb"
@@ -60,17 +59,7 @@ func TestBuntDbRepo_GenerateUniqueId(t *testing.T) {
 		tx.Set("104", `{"id":104}`, nil)
 		return nil
 	})
-	db.View(func(tx *buntdb.Tx) error {
-		tx.Descend("jsonIndex", func(key, value string) bool {
-			fmt.Printf("%s: %s\n", key, value)
-			return false
-		})
-		return nil
-	})
-	//db.Update(func(tx *buntdb.Tx) error {
-	//	tx.Set("101", "raja", nil)
-	//	return nil
-	//})
+
 	repo := BuntDbRepo{DB: db}
 	id := repo.GenerateUniqueId()
 	assert.Equal(t, 108, id)

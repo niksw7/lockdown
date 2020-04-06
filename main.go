@@ -11,7 +11,7 @@ import (
 func main() {
 	r := gin.Default()
 	db, err := buntdb.Open("data.db")
-	db.CreateIndex("keyIndex", "jsonIndex", buntdb.IndexJSON("id"))
+	db.CreateIndex("jsonIndex", "*", buntdb.IndexJSON("Id"))
 	if err != nil {
 		log.Fatal(err)
 		return
