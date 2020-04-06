@@ -27,6 +27,6 @@ func main() {
 
 	//authenticatedEndpoints := r.Group("/secure/")
 	r.GET("/read-user-details", handler.UserDetailsReader())
-	r.GET("/download-csv", handler.CsvDownloader())
+	r.GET("/download-csv", handler.CsvDownloader(repo))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
