@@ -6,9 +6,14 @@ import (
 	"lockdown/handler"
 	"lockdown/repository"
 	"log"
+	"os"
 )
 
 func main() {
+
+	//get user and password
+	username := os.Getenv("ADMIN")
+	password := os.Getenv("PASSWORD")
 	r := gin.Default()
 	db, err := buntdb.Open("data.db")
 	db.CreateIndex("jsonIndex", "*", buntdb.IndexJSON("Id"))
@@ -25,8 +30,10 @@ func main() {
 	openEndpoints.GET("/health", handler.HealthChecker())
 	openEndpoints.POST("/register-user-details", handler.UserDetailsRegistrar(repo))
 
-	//authenticatedEndpoints := r.Group("/secure/")
-	r.GET("/read-user-details", handler.UserDetailsReader())
-	r.GET("/download-csv", handler.CsvDownloader(repo))
+	authenticatedEndpoints := r.Group("/secure/", gin.BasicAuth(gin.Accounts{
+		username: password,
+	}))
+	authenticatedEndpoints.GET("/read-user-details", handler.UserDetailsReader())
+	authenticatedEndpoints.GET("/download-csv", handler.CsvDownloader(repo))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

@@ -21,3 +21,14 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          env:
+            - name: ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: lockdownsecret
+                  key: user
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lockdownsecret
+                  key: password
