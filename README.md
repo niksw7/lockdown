@@ -3,7 +3,7 @@ The lockdown app to help administration
 ##
 ```aidl
 go build
-./lockdown
+ADMIN=admin password=password ./lockdown
 ```
 ### httpie way
 ````
@@ -77,12 +77,12 @@ You will get the following response
 
 To download the csv
 ```
-http --download GET :8080/download-csv
+http --download GET :8080/secure/download-csv http --download GET :8080/secure/download-csv -a admin:pwd
 ```
 
 To add a secret if deploying in cloud
 ```
-kubectl create secret generic lockdown-secret --from-literal user=Bruce --from-literal password=verystrongpassword
+kubectl create secret generic lockdownsecret --from-literal user=Bruce --from-literal password=verystrongpassword
 ```
 
 Remaining  Tasks
