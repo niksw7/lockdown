@@ -29,11 +29,11 @@ func TestBuntDbRepo_AddTraderRegistrationDetails(t *testing.T) {
 	dbUtil.loadDbData()
 	registeredDetails := dbUtil.values["12"]
 	assert.NotNil(t, registeredDetails)
-	assert.Equal(t, `{"Tehsil":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
+	assert.Equal(t, `{"Tehsil":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","DealerInformation":{"shopName":"","shopAddress":"","phoneNumber":"","email":"","shopType":""},"HomeDeliveryDetails":{"homeDeliveryNumber":"","agentDetails":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleDetails":{"type":"","number":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
 
 	registeredDetails = dbUtil.values["13"]
 	assert.NotNil(t, registeredDetails)
-	assert.Equal(t, `{"Tehsil":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
+	assert.Equal(t, `{"Tehsil":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","DealerInformation":{"shopName":"","shopAddress":"","phoneNumber":"","email":"","shopType":""},"HomeDeliveryDetails":{"homeDeliveryNumber":"","agentDetails":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleDetails":{"type":"","number":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
 }
 
 func TestBuntDbRepo_GenerateUniqueId_InEmptyDB(t *testing.T) {

@@ -22,7 +22,7 @@ func Test_jsonToCsv(t *testing.T) {
 	var models []models.TraderDetailsDb
 	models = append(models, model1, model2)
 	actualArray := jsonToCsv(models)
-	cols := []string{"Tehsil", "DealerType", "DeliveryLocation", "Mobile", "RegistrationDate", "Id"}
+	cols := []string{"Tehsil", "DealerType", "DeliveryLocation", "Mobile", "ShopName", "ShopAddress", "PhoneNumber", "Email", "ShopType", "HomeDeliveryNumber", "AgentName", "AgentAge", "AgentMobile", "Type", "Number", "RegistrationDate", "Id"}
 	assert.Equal(t, cols, actualArray[0])
 	assert.Equal(t, "rajasthan", actualArray[1][0])
 	assert.Equal(t, "kerala", actualArray[2][0])

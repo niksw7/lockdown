@@ -16,31 +16,7 @@ import (
 
 func TestRegisterUserDetails(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	traderDetails := models.TraderDetailsRequest{
-		Tehsil:           "VijayWada",
-		DealerType:       "Retail",
-		DeliveryLocation: "Jaipur",
-		Mobile:           "89289211",
-		DealerInformation: models.DealerInformation{
-			ShopName:    "Ramlal mitaiwaala",
-			ShopAddress: "RustomJee Area, Kalakand",
-			PhoneNumber: "90881910",
-			Email:       "jackson@gmail.com",
-			ShopType:    "Retail",
-		},
-		HomeDeliveryDetails: models.HomeDeliveryDetails{
-			HomeDeliveryNumber: "98001010101",
-			AgentDetails: models.AgentDetails{
-				AgentName:   "Ramchandani",
-				AgentAge:    45,
-				AgentMobile: "99092029292",
-			},
-			VehicleDetails: models.VehicleDetails{
-				Type:   "Car",
-				Number: "MH091111",
-			},
-		},
-	}
+	traderDetails := sampleTraderDetails()
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
 	contextForRegisterDetailsRequest(traderDetails, context)
@@ -96,4 +72,32 @@ func buildTraderDetails() string {
 	}
 	marshal, _ := json.Marshal(details)
 	return string(marshal)
+}
+
+func sampleTraderDetails() models.TraderDetailsRequest {
+	return models.TraderDetailsRequest{
+		Tehsil:           "VijayWada",
+		DealerType:       "Retail",
+		DeliveryLocation: "Jaipur",
+		Mobile:           "89289211",
+		DealerInformation: models.DealerInformation{
+			ShopName:    "Ramlal mitaiwaala",
+			ShopAddress: "RustomJee Area, Kalakand",
+			PhoneNumber: "90881910",
+			Email:       "jackson@gmail.com",
+			ShopType:    "Retail",
+		},
+		HomeDeliveryDetails: models.HomeDeliveryDetails{
+			HomeDeliveryNumber: "98001010101",
+			AgentDetails: models.AgentDetails{
+				AgentName:   "Ramchandani",
+				AgentAge:    45,
+				AgentMobile: "99092029292",
+			},
+			VehicleDetails: models.VehicleDetails{
+				Type:   "Car",
+				Number: "MH091111",
+			},
+		},
+	}
 }

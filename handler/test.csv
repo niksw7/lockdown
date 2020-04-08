@@ -1,2 +1,2 @@
-Tehsil,DealerType,DeliveryLocation,Mobile,RegistrationDate,Id
-VijayWada,Retail,Jaipur,89289211,2019,0
+Tehsil,DealerType,DeliveryLocation,Mobile,ShopName,ShopAddress,PhoneNumber,Email,ShopType,HomeDeliveryNumber,AgentName,AgentAge,AgentMobile,Type,Number,RegistrationDate,Id
+VijayWada,Retail,Jaipur,89289211,,,,,,,,0,,,,2019,0
