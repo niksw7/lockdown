@@ -3,7 +3,7 @@ The lockdown app to help administration
 ##
 ```aidl
 go build
-ADMIN=admin password=password ./lockdown
+ADMIN=admin PASSWORD=password ./lockdown
 ```
 ### httpie way
 ````
