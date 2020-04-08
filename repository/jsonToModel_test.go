@@ -9,7 +9,7 @@ import (
 
 func Test_toTraderDetailsDb(t *testing.T) {
 	traderDetailsDb := models.TraderDetailsDb{
-		Tehsil:           "rajasthan",
+		City:           "rajasthan",
 		DealerType:       "sa",
 		DeliveryLocation: "jabalpur",
 		Mobile:           "sasa",

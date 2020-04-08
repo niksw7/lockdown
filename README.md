@@ -16,7 +16,7 @@ curl -X POST \
   http://localhost:8080/open/register-user-details \
   -H 'Accept: application/json' \
   -d '{
-        "tehsil": "VijayWada",
+        "city": "VijayWada",
         "dealerType": "Retail",
         "deliveryLocation": "Jaipur",
         "mobile": "89289211",
@@ -46,7 +46,7 @@ You will get the following response
 ```
 {
 {
-  "Tehsil": "VijayWada",
+  "City": "VijayWada",
   "DealerType": "Retail",
   "DeliveryLocation": "Jaipur",
   "Mobile": "89289211",

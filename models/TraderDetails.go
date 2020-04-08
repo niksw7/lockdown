@@ -1,7 +1,7 @@
 package models
 
 type TraderDetailsRequest struct {
-	Tehsil              string              `json:"tehsil"`
+	City              string              `json:"city"`
 	DealerType          string              `json:"dealerType"`
 	DeliveryLocation    string              `json:"deliveryLocation"`
 	Mobile              string              `json:"mobile"`
@@ -10,7 +10,7 @@ type TraderDetailsRequest struct {
 }
 
 type TraderDetailsDb struct {
-	Tehsil              string
+	City              string
 	DealerType          string
 	DeliveryLocation    string
 	Mobile              string
@@ -21,7 +21,7 @@ type TraderDetailsDb struct {
 }
 
 type CsvModel struct {
-	Tehsil              string
+	City              string
 	DealerType          string
 	DeliveryLocation    string
 	Mobile              string

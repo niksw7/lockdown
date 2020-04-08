@@ -48,7 +48,7 @@ func TestDownloadCsv(t *testing.T) {
 
 	m := mockrepository.NewMockRepo(ctrl)
 	dbs := []models.TraderDetailsDb{{
-		Tehsil:           "VijayWada",
+		City:           "VijayWada",
 		DealerType:       "Retail",
 		DeliveryLocation: "Jaipur",
 		Mobile:           "89289211",
@@ -65,7 +65,7 @@ func TestDownloadCsv(t *testing.T) {
 
 func buildTraderDetails() string {
 	details := models.TraderDetailsRequest{
-		Tehsil:           "ramaPura",
+		City:           "ramaPura",
 		DealerType:       "retail",
 		DeliveryLocation: "muradabad",
 		Mobile:           "976112233",
@@ -76,7 +76,7 @@ func buildTraderDetails() string {
 
 func sampleTraderDetails() models.TraderDetailsRequest {
 	return models.TraderDetailsRequest{
-		Tehsil:           "VijayWada",
+		City:           "VijayWada",
 		DealerType:       "Retail",
 		DeliveryLocation: "Jaipur",
 		Mobile:           "89289211",
