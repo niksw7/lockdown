@@ -16,30 +16,31 @@ curl -X POST \
   http://localhost:8080/open/register-user-details \
   -H 'Accept: application/json' \
   -d '{
-        "city": "VijayWada",
-        "dealerType": "Retail",
-        "deliveryLocation": "Jaipur",
-        "mobile": "89289211",
-        "dealerInformation": {
-          "shopName": "Ramlal mitaiwaala",
-          "shopAddress": "RustomJee Area, Kalakand",
-          "phoneNumber": "90881910",
-          "email": "jackson@gmail.com",
-          "shopType": "Retail"
+        "deliveryLocation": {
+          "area": "Khana Galli",
+          "city": "Jaipur"
         },
-        "homeDeliveryDetails": {
+        "shopDetails": {
+          "name": "Ramlal mitaiwaala",
+          "address": "RustomJee Area, Kalakand",
+          "ownerMobile": "90881910",
+          "email": "jackson@gmail.com",
+          "type": "Retail"
+        },
+        "homeDeliveryInfo": {
           "homeDeliveryNumber": "98001010101",
-          "agentDetails": {
+          "agentInfo": {
             "agentName": "Ramchandani",
             "agentAge": 45,
             "agentMobile": "99092029292"
           },
-          "vehicleDetails": {
-            "type": "Car",
-            "number": "MH091111"
+          "vehicleInfo": {
+            "vechicleType": "Car",
+            "VehicleNumber": "MH091111"
           }
         }
-      }'
+      }
+'
 ```
 
 You will get the following response
@@ -50,21 +51,21 @@ You will get the following response
   "DealerType": "Retail",
   "DeliveryLocation": "Jaipur",
   "Mobile": "89289211",
-  "DealerInformation": {
-    "shopName": "Ramlal mitaiwaala",
-    "shopAddress": "RustomJee Area, Kalakand",
-    "phoneNumber": "90881910",
+  "ShopDetails": {
+    "name": "Ramlal mitaiwaala",
+    "address": "RustomJee Area, Kalakand",
+    "ownerMobile": "90881910",
     "email": "jackson@gmail.com",
-    "shopType": "Retail"
+    "type": "Retail"
   },
-  "HomeDeliveryDetails": {
+  "HomeDeliveryInfo": {
     "homeDeliveryNumber": "98001010101",
-    "agentDetails": {
+    "agentInfo": {
       "agentName": "Ramchandani",
       "agentAge": 45,
       "agentMobile": "99092029292"
     },
-    "vehicleDetails": {
+    "vehicleInfo": {
       "type": "Car",
       "number": "MH091111"
     }

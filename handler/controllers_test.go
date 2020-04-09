@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -17,6 +18,8 @@ import (
 func TestRegisterUserDetails(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	traderDetails := sampleTraderDetails()
+	marshal, _ := json.Marshal(sampleTraderDetails())
+	fmt.Println(string(marshal))
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
 	contextForRegisterDetailsRequest(traderDetails, context)
@@ -48,10 +51,9 @@ func TestDownloadCsv(t *testing.T) {
 
 	m := mockrepository.NewMockRepo(ctrl)
 	dbs := []models.TraderDetailsDb{{
-		City:           "VijayWada",
-		DealerType:       "Retail",
-		DeliveryLocation: "Jaipur",
-		Mobile:           "89289211",
+		DeliveryLocation: models.DeliveryLocation{
+			Area: "Khana Galli",
+			City: "Jaipur"},
 		RegistrationDate: "2019",
 		Id:               0,
 	}}
@@ -65,10 +67,9 @@ func TestDownloadCsv(t *testing.T) {
 
 func buildTraderDetails() string {
 	details := models.TraderDetailsRequest{
-		City:           "ramaPura",
-		DealerType:       "retail",
-		DeliveryLocation: "muradabad",
-		Mobile:           "976112233",
+		DeliveryLocation: models.DeliveryLocation{
+			Area: "Peena Galli",
+			City: "Murdabad"},
 	}
 	marshal, _ := json.Marshal(details)
 	return string(marshal)
@@ -76,27 +77,26 @@ func buildTraderDetails() string {
 
 func sampleTraderDetails() models.TraderDetailsRequest {
 	return models.TraderDetailsRequest{
-		City:           "VijayWada",
-		DealerType:       "Retail",
-		DeliveryLocation: "Jaipur",
-		Mobile:           "89289211",
-		DealerInformation: models.DealerInformation{
-			ShopName:    "Ramlal mitaiwaala",
-			ShopAddress: "RustomJee Area, Kalakand",
-			PhoneNumber: "90881910",
+		DeliveryLocation: models.DeliveryLocation{
+			Area: "Khana Galli",
+			City: "Jaipur"},
+		ShopDetails: models.ShopDetails{
+			Name:        "Ramlal mitaiwaala",
+			Address:     "RustomJee Area, Kalakand",
+			OwnerMobile: "90881910",
 			Email:       "jackson@gmail.com",
-			ShopType:    "Retail",
+			Type:        "Retail",
 		},
-		HomeDeliveryDetails: models.HomeDeliveryDetails{
+		HomeDeliveryInfo: models.HomeDeliveryInfo{
 			HomeDeliveryNumber: "98001010101",
-			AgentDetails: models.AgentDetails{
+			AgentInfo: models.AgentInfo{
 				AgentName:   "Ramchandani",
 				AgentAge:    45,
 				AgentMobile: "99092029292",
 			},
-			VehicleDetails: models.VehicleDetails{
-				Type:   "Car",
-				Number: "MH091111",
+			VehicleInfo: models.VehicleInfo{
+				VehicleType:   "Car",
+				VehicleNumber: "MH091111",
 			},
 		},
 	}

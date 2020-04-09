@@ -1,2 +1,2 @@
-City,DealerType,DeliveryLocation,Mobile,ShopName,ShopAddress,PhoneNumber,Email,ShopType,HomeDeliveryNumber,AgentName,AgentAge,AgentMobile,Type,Number,RegistrationDate,Id
-VijayWada,Retail,Jaipur,89289211,,,,,,,,0,,,,2019,0
+Area,City,Name,Address,OwnerMobile,Email,Type,HomeDeliveryNumber,AgentName,AgentAge,AgentMobile,VehicleType,VehicleNumber,RegistrationDate,Id
+Khana Galli,Jaipur,,,,,,,,0,,,,2019,0

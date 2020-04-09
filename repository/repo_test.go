@@ -14,10 +14,9 @@ func TestBuntDbRepo_AddTraderRegistrationDetails(t *testing.T) {
 	defer db.Close()
 	repo := BuntDbRepo{DB: db}
 	traderDetails := models.TraderDetailsDb{
-		City:           "Vijaywada",
-		DealerType:       "Retail",
-		DeliveryLocation: "Jaipur",
-		Mobile:           "89289211",
+		DeliveryLocation: models.DeliveryLocation{
+			Area: "Khana Galli",
+			City: "Jaipur"},
 		RegistrationDate: "2019-09-09",
 	}
 	err := repo.AddTraderRegistrationDetails(traderDetails, "12")
@@ -29,11 +28,11 @@ func TestBuntDbRepo_AddTraderRegistrationDetails(t *testing.T) {
 	dbUtil.loadDbData()
 	registeredDetails := dbUtil.values["12"]
 	assert.NotNil(t, registeredDetails)
-	assert.Equal(t, `{"City":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","DealerInformation":{"shopName":"","shopAddress":"","phoneNumber":"","email":"","shopType":""},"HomeDeliveryDetails":{"homeDeliveryNumber":"","agentDetails":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleDetails":{"type":"","number":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
+	assert.Equal(t, `{"DeliveryLocation":{"area":"Khana Galli","city":"Jaipur"},"ShopDetails":{"name":"","address":"","ownerMobile":"","email":"","type":""},"HomeDeliveryInfo":{"homeDeliveryNumber":"","agentInfo":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleInfo":{"vechicleType":"","VehicleNumber":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
 
 	registeredDetails = dbUtil.values["13"]
 	assert.NotNil(t, registeredDetails)
-	assert.Equal(t, `{"City":"Vijaywada","DealerType":"Retail","DeliveryLocation":"Jaipur","Mobile":"89289211","DealerInformation":{"shopName":"","shopAddress":"","phoneNumber":"","email":"","shopType":""},"HomeDeliveryDetails":{"homeDeliveryNumber":"","agentDetails":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleDetails":{"type":"","number":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
+	assert.Equal(t, `{"DeliveryLocation":{"area":"Khana Galli","city":"Jaipur"},"ShopDetails":{"name":"","address":"","ownerMobile":"","email":"","type":""},"HomeDeliveryInfo":{"homeDeliveryNumber":"","agentInfo":{"agentName":"","agentAge":0,"agentMobile":""},"vehicleInfo":{"vechicleType":"","VehicleNumber":""}},"RegistrationDate":"2019-09-09","Id":0}`, registeredDetails)
 }
 
 func TestBuntDbRepo_GenerateUniqueId_InEmptyDB(t *testing.T) {

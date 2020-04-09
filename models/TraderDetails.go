@@ -1,55 +1,50 @@
 package models
 
 type TraderDetailsRequest struct {
-	City              string              `json:"city"`
-	DealerType          string              `json:"dealerType"`
-	DeliveryLocation    string              `json:"deliveryLocation"`
-	Mobile              string              `json:"mobile"`
-	DealerInformation   DealerInformation   `json:"dealerInformation"`
-	HomeDeliveryDetails HomeDeliveryDetails `json:"homeDeliveryDetails"`
+	DeliveryLocation    DeliveryLocation    `json:"deliveryLocation"`
+	ShopDetails   ShopDetails   `json:"shopDetails"`
+	HomeDeliveryInfo HomeDeliveryInfo `json:"homeDeliveryInfo"`
 }
 
 type TraderDetailsDb struct {
-	City              string
-	DealerType          string
-	DeliveryLocation    string
-	Mobile              string
-	DealerInformation   DealerInformation
-	HomeDeliveryDetails HomeDeliveryDetails
+	DeliveryLocation    DeliveryLocation
+	ShopDetails   ShopDetails
+	HomeDeliveryInfo HomeDeliveryInfo
 	RegistrationDate    string
 	Id                  int
 }
 
 type CsvModel struct {
-	City              string
-	DealerType          string
-	DeliveryLocation    string
-	Mobile              string
-	DealerInformation   DealerInformation
-	HomeDeliveryDetails HomeDeliveryDetails
+	DeliveryLocation    DeliveryLocation
+	ShopDetails   ShopDetails
+	HomeDeliveryInfo HomeDeliveryInfo
 	ApplicationDate     string
 }
 
-type DealerInformation struct {
-	ShopName    string `json:"shopName"`
-	ShopAddress string `json:"shopAddress"`
-	PhoneNumber string `json:"phoneNumber"`
+type ShopDetails struct {
+	Name    string `json:"name"`
+	Address string `json:"address"`
+	OwnerMobile string `json:"ownerMobile"`
 	Email       string `json:"email"`
-	ShopType    string `json:"shopType"`
+	Type    string `json:"type"`
 }
-type HomeDeliveryDetails struct {
+type HomeDeliveryInfo struct {
 	HomeDeliveryNumber string         `json:"homeDeliveryNumber"`
-	AgentDetails       AgentDetails   `json:"agentDetails"`
-	VehicleDetails     VehicleDetails `json:"vehicleDetails"`
+	AgentInfo       AgentInfo   `json:"agentInfo"`
+	VehicleInfo     VehicleInfo `json:"vehicleInfo"`
 }
 
-type AgentDetails struct {
+type AgentInfo struct {
 	AgentName   string `json:"agentName"`
 	AgentAge    int    `json:"agentAge"`
 	AgentMobile string `json:"agentMobile"`
 }
 
-type VehicleDetails struct {
-	Type   string `json:"type"`
-	Number string `json:"number"`
+type VehicleInfo struct {
+	VehicleType   string `json:"vechicleType"`
+	VehicleNumber string `json:"VehicleNumber"`
+}
+type DeliveryLocation struct {
+	Area string `json:"area"`
+	City string `json:"city"`
 }
