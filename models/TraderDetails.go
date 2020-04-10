@@ -41,8 +41,8 @@ type AgentInfo struct {
 }
 
 type VehicleInfo struct {
-	VehicleType   string `json:"vechicleType"`
-	VehicleNumber string `json:"VehicleNumber"`
+	VehicleType   string `json:"vehicleType"`
+	VehicleNumber string `json:"vehicleNumber"`
 }
 type DeliveryLocation struct {
 	Area string `json:"area"`

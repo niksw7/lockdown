@@ -3,7 +3,6 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -18,8 +17,6 @@ import (
 func TestRegisterUserDetails(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	traderDetails := sampleTraderDetails()
-	marshal, _ := json.Marshal(sampleTraderDetails())
-	fmt.Println(string(marshal))
 	responseRecorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(responseRecorder)
 	contextForRegisterDetailsRequest(traderDetails, context)
@@ -63,16 +60,6 @@ func TestDownloadCsv(t *testing.T) {
 	expectedContent := string(content)
 	assert.Equal(t, expectedContent, responseRecorder.Body.String())
 
-}
-
-func buildTraderDetails() string {
-	details := models.TraderDetailsRequest{
-		DeliveryLocation: models.DeliveryLocation{
-			Area: "Peena Galli",
-			City: "Murdabad"},
-	}
-	marshal, _ := json.Marshal(details)
-	return string(marshal)
 }
 
 func sampleTraderDetails() models.TraderDetailsRequest {
